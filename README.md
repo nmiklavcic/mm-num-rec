@@ -15,8 +15,9 @@ The project includes:
  - Training data gotten from:
    - num-rec.nmiklavcic.com
    - Paper scans of numbers gotten from a variety of people
- - A pre-processing algorythm that finds the center of numbers and tries to match them up as best as possible ()
- - 
+ - A pre-processing algorythm that centers the numbers, turns them in to a matrix and flattens that matrix in to a vector
+ - Precalculated matrices so that we don't need to compute them every single time
+ - Calculator function that recieves the image you want to predict and flattens it to a vector and calculates the best fit for that specific number
 
 <computation help>
 Efficient Computation via SVD

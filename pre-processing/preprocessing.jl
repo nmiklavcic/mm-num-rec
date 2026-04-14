@@ -1,15 +1,5 @@
 using Images, FileIO, DelimitedFiles
 
-# println("Image size: ", size(gray))
-# println("Top-left corner: ", gray[1, 1])
-# println("Center: ", gray[140, 140])
-# println("Min value in image: ", minimum(gray))
-# println("Max value in image: ", maximum(gray))
-
-# for i in 1:280
-#     println(gray[i, :])
-# end
-
 ## Turns image form 280×280 to 28×28 and turns it into a matrix with white 0 and black 1
 # gray = 1 .- Gray.(imresize(img, (28,28)))
 
@@ -127,5 +117,3 @@ function gen_matrices_Ai()
         writedlm("processed_matrices/A_$i.txt", Ai) # Write the matrix in its respective file to be used later
     end 
 end
-
-gen_matrices_Ai()
