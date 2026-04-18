@@ -17,7 +17,7 @@ function compute_svd(Ai, k)
     # Now apply svd Julia builtin already
     U, S, V = svd(Ai)
 
-    # Truncate the marices to k
+    # Truncate the matrices to k
     U_k = U[:, 1:k]
     S_k = S[1:k]
     V_k = V[:, 1:k]
