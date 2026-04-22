@@ -68,19 +68,16 @@ function flatten_input_image(file)
 end
 
 ### Code for manual testing on input data
-b = flatten_input_image(joinpath(@__DIR__, "../data/1/2026-04-14 14-46 1_crop_standardized.png"))
+#b = flatten_input_image(joinpath(@__DIR__, "../data/1/2026-04-14 14-46 1_crop_standardized.png"))
 
 # determine k
-k = 10 # ??
+# k = 40 # ??
 
-BD, CONF, PROB = calculate_best_fit_svd(b, k) #need to define k bro
-PROB = round.(PROB, digits=3)
-println(BD," ", CONF,"\n")
-for i in 1:10
-    println("$(i-1): ", PROB[i])
-end
-
+# BD, CONF, PROB = calculate_best_fit_svd(b, k) #need to define k bro
+# PROB = round.(PROB, digits=3)
+# println(BD," ", CONF,"\n")
+# for i in 1:10
+#     println("$(i-1): ", PROB[i])
+# end
 
 #img = x_to_img(X, BD)
-###
-
