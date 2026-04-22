@@ -17,32 +17,22 @@ function calculate_best_fit_svd(b, k)
         Ui = load_matrix_Ai(joinpath(mapa_svd, "A_$i", "A_$i(U).txt"))
         Si = load_matrix_Ai(joinpath(mapa_svd, "A_$i", "A_$i(S).txt"))
 
-        println("Checking dimensions for i=$i")
-
-        println("size(U$i): ", size(Ui))
-        println("length(b): ", length(b))
-
-        # --- safety check ---
         if size(Ui,1) != length(b)
             error("Dimension mismatch: U rows != b length")
         end
         
+        Si = vec(Si) # convert Si into one vector of singular values
+        k = min(k, length(Si) ) # če je manj singularnih vrednosti vzami range
+
+        Ui_k = Ui[:, 1:k]
+        Si_k = Si[1:k]
+
         # ci bo U Transponirano * b, desna stran enačbe
-        ci = Ui' * b
+        ci = Ui_k' * b
 
-        S = vec(Si) # covert Si into one vector of singular values
-        r = length(S) # kolko imamo singularnih vrednosti
-        corrected_k = min(k,r) # če je manj singularnih vrednosti vzami range
-
-        if corrected_k < length(ci)
-            residual = norm(ci[corrected_k:end])
-        else
-            residual = 0.0
-        end
-        
-        # računamo yi
-        #yi = Si \ ci
-
+        # normo, ki nas zanima je: || UiT*b - Si*yi ||  .... #yi = Si \ ci
+        residual = norm(b - Ui_k * ci)
+ 
         #residual = norm(ci - Si*yi)
         residuals[i+1] = residual # dodaj ostanek v array residualov
 
@@ -60,7 +50,7 @@ function calculate_best_fit_svd(b, k)
     CONF = round(PROB[BD+1], digits=2) # the probability of the number it sees as the best fit
     #X = XI[BD+1]
 
-    println("\nBest model: i= $BD with residual = $BR")
+    println("\nBest model: i = $BD with residual = $BR")
     return BD, CONF, PROB
     
 end
@@ -81,7 +71,7 @@ end
 b = flatten_input_image(joinpath(@__DIR__, "../data/1/2026-04-14 14-46 1_crop_standardized.png"))
 
 # determine k
-k = 40 # ??
+k = 10 # ??
 
 BD, CONF, PROB = calculate_best_fit_svd(b, k) #need to define k bro
 PROB = round.(PROB, digits=3)
@@ -89,6 +79,7 @@ println(BD," ", CONF,"\n")
 for i in 1:10
     println("$(i-1): ", PROB[i])
 end
+
 
 #img = x_to_img(X, BD)
 ###
