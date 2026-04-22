@@ -1,4 +1,4 @@
-using Images, FileIO, DelimitedFiles, LinearAlgebra, Plots
+using Images, FileIO, DelimitedFiles, LinearAlgebra
 
 include(joinpath(@__DIR__, "processing_svd.jl"))
 
@@ -79,34 +79,3 @@ function calculate_best_k()
     return acc, conf_corr, conf_wr
 end
 
-function graph_res()
-    acc, conf_corr, conf_wr = calculate_best_k()
-
-    ks = 1:59
-
-    p1 = plot(ks, acc,
-        xlabel="k", ylabel="Accuracy",
-        title="Recognition Accuracy vs k",
-        label="accuracy", lw=2,
-        marker=:circle, markersize=3,
-        ylims=(0, 1))
-
-    p2 = plot(ks, conf_corr,
-        xlabel="k", ylabel="Confidence",
-        title="Confidence vs k",
-        label="Avg confidence for correct predictions", lw=2,
-        marker=:circle, markersize=3,
-        color=:green, ylims=(0, 1))
-    plot!(p2, ks, conf_wr,
-        label="Avg confidence for wrong predictions", lw=2,
-        marker=:square, markersize=3,
-        color=:red)
-
-    p = plot(p1, p2, layout=(2, 1), size=(800, 700))
-    savefig(p, joinpath(@__DIR__, "svd_stats.png"))
-    display(p)
-
-    return acc, conf_corr, conf_wr
-end
-
-graph_res()
